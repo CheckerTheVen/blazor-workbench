@@ -18,7 +18,21 @@
 <body>
     <Routes @rendermode="InteractiveServer" />
 
-    <script src="_framework/blazor.web.js"></script>
+    <script src="_framework/blazor.web.js" autostart="false"></script>
+    <script>
+        /** Defines the time to elapse in seconds for an error to be thrown when the server doesn't respond. */
+        const serverResponseTimeout = 2;
+        /** Defines the interval in seconds to send a keep-alive ping to the server. */
+        const keepAliveInterval = 15;
+
+        Blazor.start({
+            circuit: {
+                configureSignalR: builder => builder
+                    .withServerTimeout(serverResponseTimeout * 1000)
+                    .withKeepAliveInterval(keepAliveInterval * 1000)
+            }
+        });
+    </script>
 </body>
 
 </html>
